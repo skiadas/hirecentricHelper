@@ -1,54 +1,71 @@
 <script lang="ts" setup>
-import ReactiveCounter from '/@/components/ReactiveCounter.vue';
-import ReactiveHash from '/@/components/ReactiveHash.vue';
-import ElectronVersions from '/@/components/ElectronVersions.vue';
+import LoginForm from '/@/components/LoginForm.vue';
+import SaveLocation from '/@/components/SaveLocation.vue';
+import PositionsList from '/@/components/PositionsList.vue';
+import ApplicantLoader from '/@/components/ApplicantLoader.vue';
+import {provide, ref} from 'vue';
+import {loginWithCredentials, getSearches, chooseDownloadLocation} from '#preload';
 
 const APP_VERSION = import.meta.env.VITE_APP_VERSION;
+
+// The result of the login attempt:
+// null: no attempt yet
+// false: failed attempt
+// true: successful login
+const loggedIn = ref<null | boolean>(null);
+// Path on computer where the information is to be stored
+const savePath = ref('');
+const searches = ref<null | {id: string; title: string}[]>(null);
+const selectedSearch = ref<null | string>(null);
+
+provide('search-id', selectedSearch);
+provide('base-path', savePath);
+
+async function handleLogin(username: string, password: string) {
+  const successful = await loginWithCredentials(username, password);
+  if (successful) {
+    getSearches().then(v => (searches.value = v));
+  }
+  loggedIn.value = successful;
+}
+
+async function promptSaveLocation() {
+  const downloadLocation = await chooseDownloadLocation();
+  console.log(downloadLocation);
+  savePath.value = downloadLocation || '';
+  console.log(savePath.value);
+}
+
+async function showSearchData(searchId: string) {
+  selectedSearch.value = searchId;
+}
+
 </script>
 
 <template>
-  <img
-    alt="Vue logo"
-    src="../assets/logo.svg"
-    width="150"
+  <h1
+    >HireCentric Helper
+    <span class="small">(v. {{ APP_VERSION }})</span>
+  </h1>
+  <SaveLocation
+    :save-path="savePath"
+    @prompt-location="promptSaveLocation"
   />
-
-  <p>
-    <!-- Example how to inject current app version to UI -->
-    App version: {{ APP_VERSION }}
-  </p>
-
-  <p>
-    For a guide and recipes on how to configure / customize this project,<br />
-    check out the
-    <a
-      href="https://github.com/cawa-93/vite-electron-builder"
-      target="_blank"
-    >
-      vite-electron-builder documentation
-    </a>
-    .
-  </p>
-
-  <fieldset>
-    <legend>Test Vue Reactivity</legend>
-    <reactive-counter />
-  </fieldset>
-
-  <fieldset>
-    <legend>Test Node.js API</legend>
-    <reactive-hash />
-  </fieldset>
-
-  <fieldset>
-    <legend>Environment</legend>
-    <electron-versions />
-  </fieldset>
-
-  <p>
-    Edit
-    <code>packages/renderer/src/App.vue</code> to test hot module replacement.
-  </p>
+  <LoginForm
+    v-if="!loggedIn && savePath != ''"
+    @login="handleLogin"
+    :failed-login="loggedIn == false"
+  ></LoginForm>
+  <PositionsList
+    v-if="searches != null"
+    :searches="searches"
+    @load-search="showSearchData"
+  />
+  <ApplicantLoader
+    v-if="selectedSearch"
+    :search-id="selectedSearch"
+  />
+  <p v-else-if="searches != null">Select a position to view applicant information.</p>
 </template>
 
 <style>
@@ -65,5 +82,10 @@ const APP_VERSION = import.meta.env.VITE_APP_VERSION;
 fieldset {
   margin: 2rem;
   padding: 1rem;
+}
+
+.small {
+  font-size: 50%;
+  font-weight: normal;
 }
 </style>

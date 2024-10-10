@@ -11,6 +11,6 @@
     "types": ["node"],
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "../../types/**/*.d.ts"],
+  "include": ["src/**/*.ts", "../../types/**/*.d.ts", "../main/src/download.ts"],
   "exclude": ["**/*.spec.ts", "**/*.test.ts"]
 }

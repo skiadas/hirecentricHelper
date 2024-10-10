@@ -1,6 +1,23 @@
-import {app, BrowserWindow} from 'electron';
+import {app, BrowserWindow, dialog, ipcMain} from 'electron';
 import {join} from 'node:path';
 import {fileURLToPath} from 'node:url';
+import {download, checkAccess} from './download.js';
+import {saveApplicants} from './saveCsv.js';
+
+async function getLocation() {
+  const {filePaths} = await dialog.showOpenDialog({
+    title: 'Choose directory to populate with applicant info',
+    properties: ['openDirectory'],
+  });
+  return filePaths;
+}
+
+app.whenReady().then(() => {
+  ipcMain.handle('dialog:location', getLocation);
+  ipcMain.handle('file:download', (ev, url, filepath) => download(url, filepath));
+  ipcMain.handle('file:check', (ev, filepath) => checkAccess(filepath));
+  ipcMain.handle('file:applicants', (ev, filepath, data) => saveApplicants(filepath, data));
+});
 
 async function createWindow() {
   const browserWindow = new BrowserWindow({
