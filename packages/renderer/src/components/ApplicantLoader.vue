@@ -30,7 +30,6 @@ getDataForSearch(props.searchId).then(async applicantInfo => {
     applicant.files = await getCandidateLinks(applicant.id);
     applicant.loaded = true;
     loadingInfo.value.count += 1;
-    if (loadingInfo.value.count > 3) break;
   }
   loadingInfo.value = {status: 'loaded'};
   createCSV();
