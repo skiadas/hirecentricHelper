@@ -19,7 +19,7 @@ jobs:
         with:
           cache: 'npm'
 
-      - run: npm ci
+      - run: npm i
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
 
