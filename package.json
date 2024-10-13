@@ -1,13 +1,13 @@
 {
-  "name": "vite-electron-builder",
-  "description": "Secure boilerplate for Electron app based on Vite",
+  "name": "hirecentric-helper",
+  "description": "Helper for applications in HireCentric",
   "version": "2.0.0",
   "private": true,
   "type": "module",
   "author": {
-    "email": "kozackunisoft@gmail.com",
-    "name": "Alex Kozack",
-    "url": "https://kozack.me"
+    "email": "cskiadas@gmail.com",
+    "name": "Haris Skiadas",
+    "url": "https://github.com/skiadas"
   },
   "main": "packages/main/dist/index.js",
   "scripts": {
