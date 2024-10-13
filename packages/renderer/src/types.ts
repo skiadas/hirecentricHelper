@@ -1,4 +1,4 @@
-import type { AppInfo } from '#preload';
+import type {AppInfo} from '#preload';
 
 export interface LoadingAppInfo extends AppInfo {
   loaded: boolean;

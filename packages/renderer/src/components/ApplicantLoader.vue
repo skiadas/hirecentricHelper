@@ -58,7 +58,11 @@ function setDownloadAll() {
     >
       Download all!
     </button>
-    <span class="badge" v-if="pendingCount > 0">{{ pendingCount }}</span>
+    <span
+      class="badge"
+      v-if="pendingCount > 0"
+      >{{ pendingCount }}</span
+    >
   </p>
   <!-- <button @click="downloadAll">Download all files!</button>-->
   <div class="applicants">

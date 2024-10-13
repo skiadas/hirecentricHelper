@@ -39,7 +39,6 @@ async function promptSaveLocation() {
 async function showSearchData(searchId: string) {
   selectedSearch.value = searchId;
 }
-
 </script>
 
 <template>

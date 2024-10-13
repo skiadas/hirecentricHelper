@@ -4,7 +4,7 @@ import type {FileInfo} from '../types';
 import {downloadFile, checkFile} from '#preload';
 
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import { faCheck, faDownload, faSpinner } from '@fortawesome/free-solid-svg-icons';
+import {faCheck, faDownload, faSpinner} from '@fortawesome/free-solid-svg-icons';
 
 const props = defineProps({
   file: {type: Object as PropType<FileInfo>, required: true},
@@ -22,7 +22,7 @@ checkFile(basePath, searchId, applicantFolder, props.file.filename).then(exists 
   status.value = exists ? 'exists' : 'download';
 });
 
-watch(shouldDownloadRef, (shouldDownload) => {
+watch(shouldDownloadRef, shouldDownload => {
   if (shouldDownload) download();
 });
 
@@ -41,11 +41,20 @@ async function download() {
 <template>
   <p class="file">
     <span class="filename">{{ file.filename }}</span>
-    <button v-if="status == 'download'" @click="download">
+    <button
+      v-if="status == 'download'"
+      @click="download"
+    >
       <FontAwesomeIcon :icon="faDownload" />
     </button>
-    <FontAwesomeIcon v-else-if="status =='exists'" :icon="faCheck"/>
-    <FontAwesomeIcon v-else :icon="faSpinner" />
+    <FontAwesomeIcon
+      v-else-if="status == 'exists'"
+      :icon="faCheck"
+    />
+    <FontAwesomeIcon
+      v-else
+      :icon="faSpinner"
+    />
   </p>
 </template>
 

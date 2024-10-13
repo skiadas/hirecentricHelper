@@ -7,7 +7,7 @@ export async function checkAccess(filename: string) {
   try {
     await access(filename);
     return true;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (_) {
     return false;
   }

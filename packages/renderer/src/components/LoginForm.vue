@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-defineProps({ failedLogin: Boolean });
+defineProps({failedLogin: Boolean});
 const emit = defineEmits(['login']);
 
 async function submit(ev: Event) {

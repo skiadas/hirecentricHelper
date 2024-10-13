@@ -3,8 +3,8 @@ import UploadedFile from './UploadedFile.vue';
 import {provide, ref, type PropType} from 'vue';
 import type {LoadingAppInfo} from '../types';
 
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { faCheck, faQuestion } from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
+import {faCheck, faQuestion} from '@fortawesome/free-solid-svg-icons';
 
 const props = defineProps({
   applicant: {
@@ -26,13 +26,26 @@ function toggleCollapse() {
     <p @click="toggleCollapse">
       <span>{{ applicant.name }}</span>
       <span :class="['load-status', applicant.loaded ? 'loaded' : ''].join(' ')">
-        <FontAwesomeIcon v-if="applicant.loaded" :icon="faCheck" />
-        <FontAwesomeIcon v-else :icon="faQuestion" />
+        <FontAwesomeIcon
+          v-if="applicant.loaded"
+          :icon="faCheck"
+        />
+        <FontAwesomeIcon
+          v-else
+          :icon="faQuestion"
+        />
         <!-- {{ applicant.loaded ? '✔' : '?' }} -->
       </span>
     </p>
-    <div class="files" :hidden="hideFiles">
-      <UploadedFile v-for="file in applicant.files" :key="file.filename" :file="file" />
+    <div
+      class="files"
+      :hidden="hideFiles"
+    >
+      <UploadedFile
+        v-for="file in applicant.files"
+        :key="file.filename"
+        :file="file"
+      />
     </div>
   </div>
 </template>
