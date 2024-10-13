@@ -38,8 +38,10 @@ export async function loginWithCredentials(username: string, password: string) {
   return forgotMessage == null;
 }
 
-export async function getSearches() {
-  const data = await getData(makeLink(['manager', 'view.php'], {n: 'manager'}), 'get');
+export async function getSearches(showInactive: boolean) {
+  const params: {[key: string]: string } = {n: 'manager'};
+  if (showInactive) { params.f = 'showInactive'; }
+  const data = await getData(makeLink(['manager', 'view.php'], params), 'get');
   const doc = parse(data);
   const titles = doc
     .querySelectorAll('tr.odd_tr, tr.even_tr')

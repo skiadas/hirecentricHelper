@@ -17,6 +17,7 @@ const loggedIn = ref<null | boolean>(null);
 const savePath = ref('');
 const searches = ref<null | {id: string; title: string}[]>(null);
 const selectedSearch = ref<null | string>(null);
+const showInactive = ref(false);
 
 provide('search-id', selectedSearch);
 provide('base-path', savePath);
@@ -24,7 +25,7 @@ provide('base-path', savePath);
 async function handleLogin(username: string, password: string) {
   const successful = await loginWithCredentials(username, password);
   if (successful) {
-    getSearches().then(v => (searches.value = v));
+    getSearches(showInactive.value).then(v => (searches.value = v));
   }
   loggedIn.value = successful;
 }
@@ -50,6 +51,7 @@ async function showSearchData(searchId: string) {
     :save-path="savePath"
     @prompt-location="promptSaveLocation"
   />
+  <label>Show inactive searches <input @change="(ev) => showInactive = (ev.target as HTMLInputElement).checked" type="checkbox" /></label>
   <LoginForm
     v-if="!loggedIn && savePath != ''"
     @login="handleLogin"
