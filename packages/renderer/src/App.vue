@@ -51,7 +51,12 @@ async function showSearchData(searchId: string) {
     :save-path="savePath"
     @prompt-location="promptSaveLocation"
   />
-  <label>Show inactive searches <input @change="(ev) => showInactive = (ev.target as HTMLInputElement).checked" type="checkbox" /></label>
+  <label
+    >Show inactive searches
+    <input
+      @change="ev => (showInactive = (ev.target as HTMLInputElement).checked)"
+      type="checkbox"
+  /></label>
   <LoginForm
     v-if="!loggedIn && savePath != ''"
     @login="handleLogin"

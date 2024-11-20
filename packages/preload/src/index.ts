@@ -39,8 +39,10 @@ export async function loginWithCredentials(username: string, password: string) {
 }
 
 export async function getSearches(showInactive: boolean) {
-  const params: {[key: string]: string } = {n: 'manager', f: 'tab' };
-  if (showInactive) { params.f = 'showInactive'; }
+  const params: {[key: string]: string} = {n: 'manager', f: 'tab'};
+  if (showInactive) {
+    params.f = 'showInactive';
+  }
   const data = await getData(makeLink(['manager', 'view.php'], params), 'get');
   const doc = parse(data);
   const titles = doc
